@@ -13,8 +13,8 @@
     p_error = e.message.strip
   end
 
-  # get tensorflow modules
-  m_cmd = "bash -il -c 'module -t avail py-tensorflow |& grep tensorflow' 2>/dev/null"
+  # get tensorboard modules
+  m_cmd = "bash -il -c 'module -t avail tensorboard |& grep tensorboard 2>/dev/null"
   begin
     output, status = Open3.capture2e(m_cmd)
     if status.success?
@@ -28,19 +28,19 @@
   end
 -%>
 ---
-cluster: "sherlock"
+cluster: "ake_test"
 
 form:
   - sh_tf_version
   - tb_logdir
   - tb_extra_args
-  - sh_modules
-  - sh_partition
-  - sh_cpus
-  - sh_gpus
-  - sh_mem
-  - bc_num_hours
-  - bc_email_on_started
+  #- sh_modules
+  #- sh_partition
+  #- sh_cpus
+  #- sh_gpus
+  #- sh_mem
+  #- bc_num_hours
+  #- bc_email_on_started
 
 attributes:
 
@@ -59,7 +59,7 @@ attributes:
     label: "Additional TensorBoard arguments (optional)"
 
   sh_tf_version:
-    label: "Tensorflow version"
+    label: "Tensorboard version"
     <%- if m_error -%>
       <span class="text-danger">Error when parsing module versions:</span>
       ```
