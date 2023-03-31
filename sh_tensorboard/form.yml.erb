@@ -14,7 +14,7 @@
   end
 
   # get tensorboard modules
-  m_cmd = "bash -il -c 'module -t avail tensorboard |& grep tensorboard 2>/dev/null"
+  m_cmd = "bash -il -c 'module -t avail tensorboard 2>&1 | grep tensorboard' 2>/dev/null"
   begin
     output, status = Open3.capture2e(m_cmd)
     if status.success?
