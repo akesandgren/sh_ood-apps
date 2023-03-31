@@ -5,12 +5,7 @@
 #
 
 # Load the Tensorflow module (required)
-module load <%= context.sh_tf_version %>
-
-<%- unless context.sh_modules.blank? -%>
-# Load additional modules
-module load <%= context.sh_modules %>
-<%- end -%>
+module load tensorboard/2.10.0-foss-2022a
 
 #
 # Start Tensorboard Server
