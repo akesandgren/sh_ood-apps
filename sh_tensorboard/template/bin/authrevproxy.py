@@ -44,15 +44,11 @@ class TokenResource(Resource):
             # - cookie name depends on the ood interactive session id ($PWD)
             ood_session_id = os.path.basename(os.getcwd())
             token = '_ood_token_id_' + ood_session_id
-            btoken = token.encode('UTF-8')
             try:
-                bcookie = request.getCookie(btoken)
-                cookie = bcookie.decode('UTF-8')
+                cookie = request.getCookie(token.encode('UTF-8')).decode('UTF-8')
 
             except:
                 cookie = None
-                # Cheat a bit, I know it's there, but getCookoie fails for some unknown reason
-                cookie = request.received_cookies[btoken].decode('UTF-8')
 
             # get token from environment
             # - $_ood_token_<session_id> is set in template/before.sh script
