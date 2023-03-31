@@ -15,5 +15,9 @@ password="$(create_passwd 32)"
 # replace dashes by underscores in session.id
 export _ood_token_<%= session.id.gsub("-","_") %>=${password}
 
+# Currently need Twisted from akesa's install while testing
+module use /cephyr/users/akesa/Alvis/easybuild/modules/all
+module load Twisted/22.10.0-GCCcore-11.3.0
+
 # start authrevproxy, to authentify web requests to the application
 bin/authrevproxy.py --app-port=${app_port} --proxy-port=${proxy_port} &
