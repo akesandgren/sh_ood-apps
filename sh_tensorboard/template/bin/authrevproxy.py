@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/env python
 
 # provides a reverse proxy that only allows requests coming from the same
 # user it's running as
@@ -10,8 +10,7 @@
 
 from twisted.internet import reactor, endpoints
 from twisted.web import proxy, server
-from twisted.web.resource import Resource
-from twisted.web.error import ForbiddenResource
+from twisted.web.resource import Resource, ForbiddenResource
 
 import argparse
 import getpass
@@ -44,11 +43,16 @@ class TokenResource(Resource):
             # get ood token cookie
             # - cookie name depends on the ood interactive session id ($PWD)
             ood_session_id = os.path.basename(os.getcwd())
+            token = '_ood_token_id_' + ood_session_id
+            btoken = token.encode('UTF-8')
             try:
-                cookie = request.getCookie('_ood_token_' + ood_session_id)
+                bcookie = request.getCookie(btoken)
+                cookie = bcookie.decode('UTF-8')
 
             except:
                 cookie = None
+                # Cheat a bit, I know it's there, but getCookoie fails for some unknown reason
+                cookie = request.received_cookies[btoken].decode('UTF-8')
 
             # get token from environment
             # - $_ood_token_<session_id> is set in template/before.sh script
@@ -62,7 +66,7 @@ class TokenResource(Resource):
             if cookie == ood_token and cookie != None:
                 return proxy.ReverseProxyResource(self.host,
                                                   self.port,
-                                                  '/' + path)
+                                                  b'/' + path)
 
         # no cheese for you
         request.setResponseCode(403)
