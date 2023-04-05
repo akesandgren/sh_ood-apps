@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/python3
 
 # provides a reverse proxy that only allows requests coming from the same
 # user it's running as
